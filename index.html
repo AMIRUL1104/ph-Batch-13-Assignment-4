@@ -4,6 +4,145 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Job Application Tracker</title>
+
+    <!-- Font  -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap"
+      rel="stylesheet"
+    />
+
+    <!-- DaisyUI -->
+    <link
+      href="https://cdn.jsdelivr.net/npm/daisyui@5"
+      rel="stylesheet"
+      type="text/css"
+    />
+    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+
+    <style>
+      * {
+        font-family: "Inter", sans-serif;
+      }
+    </style>
   </head>
-  <body></body>
+  <body class="bg-[#F8FAFC]">
+    <div class="max-w-6xl flex-row pt-10 max-md:pt-5 mx-auto px-3">
+      <h1 class="text-4xl font-bold text-start text-[#002C5C]">
+        Job Application Tracker
+      </h1>
+    </div>
+
+    <div class="card max-w-6xl flex-row gap-4 mt-10 mx-auto px-3">
+      <!-- add simple transition and shadow on mouseover -->
+      <div
+        class="card-body bg-base-100 shadow-sm rounded-[8px] hover:shadow-lg transition-shadow duration-500 ease-linear hover:-translate-y-2"
+      >
+        <p class="text-[#323B49]">Total</p>
+        <h3 id="totalJob" class="text-[#002C5C] font-semibold text-xl">8</h3>
+      </div>
+
+      <div
+        class="card-body bg-base-100 shadow-sm rounded-[8px] hover:shadow-lg transition-shadow duration-500 ease-linear hover:-translate-y-2"
+      >
+        <p class="text-[#323B49]">Interview</p>
+        <h3 class="text-[#10B981] font-semibold text-xl">0</h3>
+      </div>
+
+      <div
+        class="card-body bg-base-100 shadow-sm rounded-[8px] hover:shadow-lg transition-shadow duration-500 ease-linear hover:-translate-y-2"
+      >
+        <p class="text-[#323B49]">Rejected</p>
+        <h3 class="text-[#EF4444] font-semibold text-xl">0</h3>
+      </div>
+    </div>
+
+    <hr
+      class="my-10 max-lg:my-5 border-[#E2E8F0] max-w-6xl mx-auto max-lg:mx-3"
+    />
+
+    <div class="space-y-5 max-w-6xl mx-auto px-3 pb-10">
+      <div
+        class="flex flex-row justify-between items-center max-lg:mb-3 max-w-6xl mx-auto"
+      >
+        <h2 class="text-[#002C5C] text-2xl font-bold">Available jobs</h2>
+        <p class="font-medium text-base text-[#64748B]">8 jobs</p>
+      </div>
+
+      <div>
+        <button
+          onclick="toggleAvailableJob('all')"
+          class="btn btn-soft btn-primary w-20 focus:bg-indigo-600 focus:text-white"
+        >
+          All
+        </button>
+        <button
+          onclick="toggleAvailableJob('interview')"
+          class="btn btn-soft btn-primary w-20 focus:bg-indigo-600 focus:text-white"
+        >
+          Interview
+        </button>
+        <button
+          onclick="toggleAvailableJob('rejected')"
+          class="btn btn-soft btn-primary w-20 focus:bg-indigo-600 focus:text-white"
+        >
+          Rejected
+        </button>
+      </div>
+
+      <div id="job-container" class="flex flex-col gap-5">
+        <div
+          class="card bg-base-100 shadow-sm rounded-[8px] hover:shadow-lg transition-shadow duration-500 ease-linear hover:-translate-y-2"
+        >
+          <div class="card-body space-y-3">
+            <div>
+              <h2 class="card-title text-[#002C5C]">Company Name</h2>
+              <p class="text-[#64748B]">Position Name</p>
+            </div>
+
+            <div class="text-[#64748B] flex flex-row gap-3">
+              Location Name
+              <ul
+                class="list-disc list-inside text-[#64748B] flex flex-row gap-3"
+              >
+                <li>Job Type</li>
+                <li>Salary Range</li>
+              </ul>
+            </div>
+
+            <div>
+              <p
+                class="bg-indigo-100 rounded-sm w-28 px-3 py-1.5 font-medium text-[#002C5C] mb-2"
+              >
+                Status
+              </p>
+              <p>
+                Job description goes here. This is a placeholder for the actual
+                content.
+              </p>
+            </div>
+
+            <div class="flex flex-row gap-3">
+              <button
+                class="text-green-600 border-2 rounded-sm border-green-600 px-3 py-1.5 font-medium hover:bg-green-600 hover:text-white transition-colors"
+              >
+                Interview
+              </button>
+              <button
+                class="text-red-600 border-2 rounded-sm border-red-600 px-3 py-1.5 font-medium hover:bg-red-600 hover:text-white transition-colors"
+              >
+                Rejected
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- JavaScript files -->
+
+    <script src="script/renderJobs.js"></script>
+    <script src="script/main.js"></script>
+  </body>
 </html>

@@ -35,26 +35,25 @@
     </div>
 
     <div class="card max-w-6xl flex-row gap-4 mt-10 mx-auto px-3">
-      <!-- add simple transition and shadow on mouseover -->
       <div
         class="card-body bg-base-100 shadow-sm rounded-[8px] hover:shadow-lg transition-shadow duration-500 ease-linear hover:-translate-y-2"
       >
         <p class="text-[#323B49]">Total</p>
-        <h3 id="totalJob" class="text-[#002C5C] font-semibold text-xl">8</h3>
+        <h3 id="totalJob" class="text-[#002C5C] font-semibold text-xl"></h3>
       </div>
 
       <div
         class="card-body bg-base-100 shadow-sm rounded-[8px] hover:shadow-lg transition-shadow duration-500 ease-linear hover:-translate-y-2"
       >
         <p class="text-[#323B49]">Interview</p>
-        <h3 class="text-[#10B981] font-semibold text-xl">0</h3>
+        <h3 id="interviewJob" class="text-[#10B981] font-semibold text-xl"></h3>
       </div>
 
       <div
         class="card-body bg-base-100 shadow-sm rounded-[8px] hover:shadow-lg transition-shadow duration-500 ease-linear hover:-translate-y-2"
       >
         <p class="text-[#323B49]">Rejected</p>
-        <h3 class="text-[#EF4444] font-semibold text-xl">0</h3>
+        <h3 id="rejectedJob" class="text-[#EF4444] font-semibold text-xl"></h3>
       </div>
     </div>
 
@@ -67,7 +66,7 @@
         class="flex flex-row justify-between items-center max-lg:mb-3 max-w-6xl mx-auto"
       >
         <h2 class="text-[#002C5C] text-2xl font-bold">Available jobs</h2>
-        <p class="font-medium text-base text-[#64748B]">8 jobs</p>
+        <p id="jobOfJobs" class="font-medium text-base text-[#64748B]"></p>
       </div>
 
       <div>
@@ -97,6 +96,7 @@
     <!-- JavaScript files -->
 
     <script src="script/renderJobs.js"></script>
+    <script src="script/miniMechine.js"></script>
     <script src="script/main.js"></script>
   </body>
 </html>

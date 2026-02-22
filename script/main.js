@@ -1,4 +1,3 @@
-// description should be shortened to 100 characters
 // Mock data for job posts
 let jobPosts = [
   {
@@ -113,13 +112,14 @@ let jobPosts = [
   },
 ];
 
-// Display total job count
-const totalJob = jobPosts.length;
-document.getElementById("totalJob").innerText = totalJob;
+countJobs();
+
+const { totalJob, interviewJob, rejectedJob } = countJobs();
+console.log(interviewJob, rejectedJob, totalJob);
 
 // Render job posts
 const jobContainer = document.getElementById("job-container");
-
+document.getElementById("jobOfJobs").innerText = `${totalJob} jobs`;
 // render jobs on page load
 renderJobs(jobPosts);
 
@@ -135,6 +135,9 @@ function toggleAvailableJob(selection) {
         renderJobs(jobPosts);
         // reset selection to all after filtering interview or rejected jobs
         selectionStatus = "all";
+
+        const { totalJob } = countJobs();
+        document.getElementById("jobOfJobs").innerText = `${totalJob} jobs`;
       }
       break;
     case "interview":
@@ -146,6 +149,10 @@ function toggleAvailableJob(selection) {
         renderJobs(interviewJobs);
 
         selectionStatus = "interview";
+
+        const { totalJob, interviewJob } = countJobs();
+        document.getElementById("jobOfJobs").innerText =
+          `${interviewJob} of ${totalJob} jobs`;
       }
       break;
     case "rejected":
@@ -155,6 +162,10 @@ function toggleAvailableJob(selection) {
         renderJobs(rejectedJobs);
 
         selectionStatus = "rejected";
+
+        const { totalJob, rejectedJob } = countJobs();
+        document.getElementById("jobOfJobs").innerText =
+          `${rejectedJob} of ${totalJob} jobs`;
       }
       break;
     default:
@@ -178,6 +189,7 @@ function toggleJobStatus(status, event) {
   });
 
   jobPosts = updated;
+  countJobs();
 
   if (selectionStatus === "interview") {
     let interviewJobs = jobPosts.filter((job) => job.status === "interview");

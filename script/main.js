@@ -246,3 +246,33 @@ function toggleJobStatus(status, event) {
     renderJobs(jobPosts);
   }
 }
+
+function handleDelete(event) {
+  const jobId = event.target.id;
+  jobPosts = jobPosts.filter((job) => job.id != jobId);
+
+  // re-render jobs after deletion
+  if (selectionStatus === "interview") {
+    let interviewJobs = jobPosts.filter((job) => job.status === "interview");
+    jobContainer.innerHTML = "";
+    renderJobs(interviewJobs);
+  } else if (selectionStatus === "rejected") {
+    let rejectedJobs = jobPosts.filter((job) => job.status === "rejected");
+    jobContainer.innerHTML = "";
+    renderJobs(rejectedJobs);
+  } else {
+    jobContainer.innerHTML = "";
+    renderJobs(jobPosts);
+  }
+
+  const { totalJob, interviewJob, rejectedJob } = countJobs();
+  if (selectionStatus === "interview") {
+    document.getElementById("jobOfJobs").innerText =
+      `${interviewJob} of ${totalJob} jobs`;
+  } else if (selectionStatus === "rejected") {
+    document.getElementById("jobOfJobs").innerText =
+      `${rejectedJob} of ${totalJob} jobs`;
+  } else {
+    document.getElementById("jobOfJobs").innerText = `${totalJob} jobs`;
+  }
+}

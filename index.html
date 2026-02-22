@@ -21,6 +21,15 @@
     />
     <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
 
+    <!-- font awesome cdn  -->
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.1/css/all.min.css"
+      integrity="sha512-2SwdPD6INVrV/lHTZbO2nodKhrnDdJK9/kg2XD1r9uGqPo1cUbujc+IYdlYdEErWNu69gVcYgdxlmVmzTWnetw=="
+      crossorigin="anonymous"
+      referrerpolicy="no-referrer"
+    />
+
     <style>
       * {
         font-family: "Inter", sans-serif;
@@ -36,21 +45,21 @@
 
     <div class="card max-w-6xl flex-row gap-4 mt-10 mx-auto px-3">
       <div
-        class="card-body bg-base-100 shadow-sm rounded-[8px] hover:shadow-lg transition-shadow duration-500 ease-linear hover:-translate-y-2"
+        class="card-body bg-base-100 shadow-sm rounded-[8px] hover:shadow-xl transition-shadow duration-300 ease-linear"
       >
         <p class="text-[#323B49]">Total</p>
         <h3 id="totalJob" class="text-[#002C5C] font-semibold text-xl"></h3>
       </div>
 
       <div
-        class="card-body bg-base-100 shadow-sm rounded-[8px] hover:shadow-lg transition-shadow duration-500 ease-linear hover:-translate-y-2"
+        class="card-body bg-base-100 shadow-sm rounded-[8px] hover:shadow-xl transition-shadow duration-300 ease-linear"
       >
         <p class="text-[#323B49]">Interview</p>
         <h3 id="interviewJob" class="text-[#10B981] font-semibold text-xl"></h3>
       </div>
 
       <div
-        class="card-body bg-base-100 shadow-sm rounded-[8px] hover:shadow-lg transition-shadow duration-500 ease-linear hover:-translate-y-2"
+        class="card-body bg-base-100 shadow-sm rounded-[8px] hover:shadow-xl transition-shadow duration-300 ease-linear"
       >
         <p class="text-[#323B49]">Rejected</p>
         <h3 id="rejectedJob" class="text-[#EF4444] font-semibold text-xl"></h3>
@@ -93,7 +102,10 @@
         </button>
       </div>
 
-      <div id="job-container" class="flex flex-col gap-5"></div>
+      <div
+        id="job-container"
+        class="lg:grid lg:grid-cols-2 flex flex-col gap-5"
+      ></div>
     </div>
 
     <!-- JavaScript files -->

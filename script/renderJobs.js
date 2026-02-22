@@ -8,17 +8,23 @@ function renderJobs(jobPosts) {
       "bg-base-100",
       "shadow-sm",
       "rounded-[8px]",
-      "hover:shadow-lg",
+      "hover:shadow-xl",
       "transition-shadow",
-      "duration-500",
+      "duration-200",
       "ease-linear",
-      "hover:-translate-y-2",
     );
     jobCard.innerHTML = `
               <div class="card-body space-y-3">
-            <div>
-              <h2 class="card-title text-[#002C5C]">${job.company} </h2>
-              <p class="text-[#64748B]">${job.position} </p>
+            <div class="flex flex-row justify-between items-start">
+              <div>
+                  <h2 class="card-title text-[#002C5C]">${job.company} </h2>
+                  <p class="text-[#64748B]">${job.position} </p>
+              </div>
+
+              <button  class="w-[32px] p-0 text-center text-[#647488] border rounded-full border-[#F1F2F4] hover:border-red-600 hover:text-red-600 cursor-pointer">
+                  <i id="${job.id}" onclick="handleDelete(event)" class="fa-solid fa-trash m-1.5"></i>
+              </button>
+
             </div>
 
             <div class="text-[#64748B] flex flex-row gap-3">
@@ -46,7 +52,7 @@ function renderJobs(jobPosts) {
 
             <!-- toggle button -->
             <div class="flex flex-row gap-3">
-              <button id="${job.id} " onclick="toggleJobStatus('interview',event)"
+              <button id="${job.id}" onclick="toggleJobStatus('interview',event)"
                 class="text-green-600 border-2 rounded-sm border-green-600 px-3 py-1.5 font-medium hover:bg-green-600 hover:text-white"
               >
                 Interview

@@ -123,6 +123,9 @@ const jobContainer = document.getElementById("job-container");
 // render jobs on page load
 renderJobs(jobPosts);
 
+// selection stored in a variable to be used in toggleAvailableJob function
+let selectionStatus = "all";
+
 // Toggle available job posts based on status
 function toggleAvailableJob(selection) {
   switch (selection) {
@@ -130,6 +133,8 @@ function toggleAvailableJob(selection) {
       {
         jobContainer.innerHTML = "";
         renderJobs(jobPosts);
+        // reset selection to all after filtering interview or rejected jobs
+        selectionStatus = "all";
       }
       break;
     case "interview":
@@ -137,10 +142,10 @@ function toggleAvailableJob(selection) {
         let interviewJobs = jobPosts.filter(
           (job) => job.status === "interview",
         );
-        console.log(interviewJobs);
-
         jobContainer.innerHTML = "";
         renderJobs(interviewJobs);
+
+        selectionStatus = "interview";
       }
       break;
     case "rejected":
@@ -148,12 +153,16 @@ function toggleAvailableJob(selection) {
         jobContainer.innerHTML = "";
         let rejectedJobs = jobPosts.filter((job) => job.status === "rejected");
         renderJobs(rejectedJobs);
+
+        selectionStatus = "rejected";
       }
       break;
     default:
       {
         jobContainer.innerHTML = "";
         renderJobs(jobPosts);
+
+        selectionStatus = "all";
       }
       break;
   }
@@ -169,4 +178,20 @@ function toggleJobStatus(status, event) {
   });
 
   jobPosts = updated;
+
+  if (selectionStatus === "interview") {
+    let interviewJobs = jobPosts.filter((job) => job.status === "interview");
+    // re-render jobs after status update
+    jobContainer.innerHTML = "";
+    renderJobs(interviewJobs);
+  } else if (selectionStatus === "rejected") {
+    let rejectedJobs = jobPosts.filter((job) => job.status === "rejected");
+    // re-render jobs after status update
+    jobContainer.innerHTML = "";
+    renderJobs(rejectedJobs);
+  } else {
+    // re-render jobs after status update
+    jobContainer.innerHTML = "";
+    renderJobs(jobPosts);
+  }
 }

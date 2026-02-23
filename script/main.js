@@ -148,6 +148,7 @@ function toggleAvailableJob(selection) {
 
         // update job count text
         const { totalJob } = countJobs();
+
         document.getElementById("jobOfJobs").innerText = `${totalJob} jobs`;
 
         // update button styles
@@ -164,12 +165,39 @@ function toggleAvailableJob(selection) {
         let interviewJobs = jobPosts.filter(
           (job) => job.status === "interview",
         );
+        const { totalJob, interviewJob } = countJobs();
         jobContainer.innerHTML = "";
-        renderJobs(interviewJobs);
+        if (interviewJob === 0) {
+          const jobCard = document.createElement("div");
+          jobCard.classList.add(
+            "card",
+            "bg-base-100",
+            "shadow-sm",
+            "rounded-[8px]",
+            "hover:shadow-xl",
+            "transition-shadow",
+            "duration-200",
+            "ease-linear",
+          );
+          jobCard.innerHTML = `
+              <div class="card-body space-y-3">
+            <div class="flex flex-col justify-between items-center">
+              <div class="w-[100px] mb-5">
+                 <img src="jobs.png" alt="no job found" class="w-full">
+              </div>
+               <h2 class="card-title text-[#002C5C] text-xl">No job found </h2>
+               <p class="text-[#64748B]">Check back soon for new job opportunities</p>
+            </div>
+                  
+                  `;
+
+          jobContainer.appendChild(jobCard);
+        } else {
+          renderJobs(interviewJobs);
+        }
 
         selectionStatus = "interview";
 
-        const { totalJob, interviewJob } = countJobs();
         document.getElementById("jobOfJobs").innerText =
           `${interviewJob} of ${totalJob} jobs`;
 
@@ -184,13 +212,39 @@ function toggleAvailableJob(selection) {
         let previousSelectedBtn = document.getElementById(`${selectionStatus}`);
         previousSelectedBtn.classList.remove("bg-indigo-600", "text-white");
 
+        const { totalJob, rejectedJob } = countJobs();
         jobContainer.innerHTML = "";
         let rejectedJobs = jobPosts.filter((job) => job.status === "rejected");
-        renderJobs(rejectedJobs);
+        if (rejectedJob === 0) {
+          const jobCard = document.createElement("div");
+          jobCard.classList.add(
+            "card",
+            "bg-base-100",
+            "shadow-sm",
+            "rounded-[8px]",
+            "hover:shadow-xl",
+            "transition-shadow",
+            "duration-200",
+            "ease-linear",
+          );
+          jobCard.innerHTML = `
+              <div class="card-body space-y-3">
+            <div class="flex flex-col justify-between items-center">
+              <div class="w-[100px] mb-5">
+                 <img src="jobs.png" alt="no job found" class="w-full">
+              </div>
+               <h2 class="card-title text-[#002C5C] text-xl">No job found </h2>
+               <p class="text-[#64748B]">Check back soon for new job opportunities</p>
+            </div>
+                  
+                  `;
 
+          jobContainer.appendChild(jobCard);
+        } else {
+          renderJobs(rejectedJobs);
+        }
         selectionStatus = "rejected";
 
-        const { totalJob, rejectedJob } = countJobs();
         document.getElementById("jobOfJobs").innerText =
           `${rejectedJob} of ${totalJob} jobs`;
 
@@ -203,6 +257,35 @@ function toggleAvailableJob(selection) {
       {
         jobContainer.innerHTML = "";
         renderJobs(jobPosts);
+        const { totalJob } = countJobs();
+        if (totalJob === 0) {
+          const jobCard = document.createElement("div");
+          jobCard.classList.add(
+            "card",
+            "bg-base-100",
+            "shadow-sm",
+            "rounded-[8px]",
+            "hover:shadow-xl",
+            "transition-shadow",
+            "duration-200",
+            "ease-linear",
+          );
+          jobCard.innerHTML = `
+              <div class="card-body space-y-3">
+            <div class="flex flex-col justify-between items-center">
+              <div class="w-[100px] mb-5">
+                 <img src="jobs.png" alt="no job found" class="w-full">
+              </div>
+               <h2 class="card-title text-[#002C5C] text-xl">No job found </h2>
+               <p class="text-[#64748B]">Check back soon for new job opportunities</p>
+            </div>
+                  
+                  `;
+
+          jobContainer.appendChild(jobCard);
+        } else {
+          renderJobs(jobPosts);
+        }
 
         selectionStatus = "all";
       }
@@ -226,7 +309,34 @@ function toggleJobStatus(status, event) {
     let interviewJobs = jobPosts.filter((job) => job.status === "interview");
     // re-render jobs after status update
     jobContainer.innerHTML = "";
-    renderJobs(interviewJobs);
+    if (interviewJob === 0) {
+      const jobCard = document.createElement("div");
+      jobCard.classList.add(
+        "card",
+        "bg-base-100",
+        "shadow-sm",
+        "rounded-[8px]",
+        "hover:shadow-xl",
+        "transition-shadow",
+        "duration-200",
+        "ease-linear",
+      );
+      jobCard.innerHTML = `
+              <div class="card-body space-y-3">
+            <div class="flex flex-col justify-between items-center">
+              <div class="w-[100px] mb-5">
+                 <img src="jobs.png" alt="no job found" class="w-full">
+              </div>
+               <h2 class="card-title text-[#002C5C] text-xl">No job found </h2>
+               <p class="text-[#64748B]">Check back soon for new job opportunities</p>
+            </div>
+                  
+                  `;
+
+      jobContainer.appendChild(jobCard);
+    } else {
+      renderJobs(interviewJobs);
+    }
 
     // const { totalJob, interviewJob } = countJobs();
     document.getElementById("jobOfJobs").innerText =
@@ -235,7 +345,34 @@ function toggleJobStatus(status, event) {
     let rejectedJobs = jobPosts.filter((job) => job.status === "rejected");
     // re-render jobs after status update
     jobContainer.innerHTML = "";
-    renderJobs(rejectedJobs);
+    if (rejectedJob === 0) {
+      const jobCard = document.createElement("div");
+      jobCard.classList.add(
+        "card",
+        "bg-base-100",
+        "shadow-sm",
+        "rounded-[8px]",
+        "hover:shadow-xl",
+        "transition-shadow",
+        "duration-200",
+        "ease-linear",
+      );
+      jobCard.innerHTML = `
+              <div class="card-body space-y-3">
+            <div class="flex flex-col justify-between items-center">
+              <div class="w-[100px] mb-5">
+                 <img src="jobs.png" alt="no job found" class="w-full">
+              </div>
+               <h2 class="card-title text-[#002C5C] text-xl">No job found </h2>
+               <p class="text-[#64748B]">Check back soon for new job opportunities</p>
+            </div>
+                  
+                  `;
+
+      jobContainer.appendChild(jobCard);
+    } else {
+      renderJobs(rejectedJobs);
+    }
 
     // const { totalJob, rejectedJob } = countJobs();
     document.getElementById("jobOfJobs").innerText =
@@ -243,7 +380,35 @@ function toggleJobStatus(status, event) {
   } else {
     // re-render jobs after status update
     jobContainer.innerHTML = "";
-    renderJobs(jobPosts);
+
+    if (totalJob === 0) {
+      const jobCard = document.createElement("div");
+      jobCard.classList.add(
+        "card",
+        "bg-base-100",
+        "shadow-sm",
+        "rounded-[8px]",
+        "hover:shadow-xl",
+        "transition-shadow",
+        "duration-200",
+        "ease-linear",
+      );
+      jobCard.innerHTML = `
+              <div class="card-body space-y-3">
+            <div class="flex flex-col justify-between items-center">
+              <div class="w-[100px] mb-5">
+                 <img src="jobs.png" alt="no job found" class="w-full">
+              </div>
+               <h2 class="card-title text-[#002C5C] text-xl">No job found </h2>
+               <p class="text-[#64748B]">Check back soon for new job opportunities</p>
+            </div>
+                  
+                  `;
+
+      jobContainer.appendChild(jobCard);
+    } else {
+      renderJobs(jobPosts);
+    }
   }
 }
 

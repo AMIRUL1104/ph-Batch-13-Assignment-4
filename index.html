@@ -13,6 +13,8 @@
       rel="stylesheet"
     />
 
+    <script src="https://cdn.tailwindcss.com"></script>
+
     <!-- DaisyUI -->
     <link
       href="https://cdn.jsdelivr.net/npm/daisyui@5"
@@ -35,10 +37,22 @@
         font-family: "Inter", sans-serif;
       }
     </style>
+
+    <script>
+      tailwind.config = {
+        theme: {
+          extend: {
+            screens: {
+              xs: "450px",
+            },
+          },
+        },
+      };
+    </script>
   </head>
   <body class="bg-[#F8FAFC]">
     <div class="max-w-6xl flex-row pt-10 max-md:pt-5 mx-auto px-3">
-      <h1 class="text-4xl font-bold text-start text-[#002C5C]">
+      <h1 class="xs:text-4xl text-2xl font-bold text-start text-[#002C5C]">
         Job Application Tracker
       </h1>
     </div>
@@ -74,7 +88,9 @@
       <div
         class="flex flex-row justify-between items-center max-lg:mb-3 max-w-6xl mx-auto"
       >
-        <h2 class="text-[#002C5C] text-2xl font-bold">Available jobs</h2>
+        <h2 class="text-[#002C5C] text-xl xs:text-2xl font-bold">
+          Available jobs
+        </h2>
         <p id="jobOfJobs" class="font-medium text-base text-[#64748B]"></p>
       </div>
 
@@ -82,7 +98,7 @@
         <button
           onclick="toggleAvailableJob('all')"
           id="all"
-          class="btn btn-soft btn-primary w-20"
+          class="btn btn-soft btn-primary w-12 xs:w-20"
         >
           All
         </button>
@@ -102,10 +118,7 @@
         </button>
       </div>
 
-      <div
-        id="job-container"
-        class="lg:grid lg:grid-cols-2 flex flex-col gap-5"
-      ></div>
+      <div id="job-container" class="flex flex-col gap-5"></div>
     </div>
 
     <!-- JavaScript files -->

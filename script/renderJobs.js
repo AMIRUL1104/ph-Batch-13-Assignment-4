@@ -26,7 +26,7 @@ function renderJobs(jobPosts) {
 
             </div>
 
-            <div class="text-[#64748B] flex flex-row gap-3">
+            <div class="text-[#64748B] flex flex-col xs:flex-row gap-3">
               ${job.location}
               <ul
                 class="list-disc list-inside text-[#64748B] flex flex-row gap-3"
@@ -37,7 +37,7 @@ function renderJobs(jobPosts) {
             </div>
 
           
-            <div>
+            <div class="space-y-3">
               <p
                 class="bg-indigo-100 rounded-sm w-28 px-3 py-1.5 font-medium text-[#002C5C]"
               >

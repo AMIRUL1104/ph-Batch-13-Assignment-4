@@ -15,3 +15,9 @@ function countJobs() {
 
   return { totalJob, interviewJob, rejectedJob };
 }
+
+// update button styles
+function updateButtonStyle(selection) {
+  let currentSelectedBtn = document.getElementById(`${selection}`);
+  currentSelectedBtn.classList.add("bg-indigo-600", "text-white");
+}

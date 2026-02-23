@@ -127,8 +127,7 @@ renderJobs(jobPosts);
 let selectionStatus = "all";
 
 // update button styles
-let currentSelectedBtn = document.getElementById(`${selectionStatus}`);
-currentSelectedBtn.classList.add("bg-indigo-600", "text-white");
+updateButtonStyle(selectionStatus);
 
 // Toggle available job posts based on status
 function toggleAvailableJob(selection) {
@@ -139,21 +138,23 @@ function toggleAvailableJob(selection) {
         let previousSelectedBtn = document.getElementById(`${selectionStatus}`);
         previousSelectedBtn.classList.remove("bg-indigo-600", "text-white");
 
+        // update job count text
+        const { totalJob } = countJobs();
+
         // re-render all jobs
-        jobContainer.innerHTML = "";
-        renderJobs(jobPosts);
+        clearJobContainer();
+        if (totalJob === 0) {
+          noJobFound();
+        } else {
+          renderJobs(jobPosts);
+        }
 
         // reset selection to all after filtering interview or rejected jobs
         selectionStatus = "all";
 
-        // update job count text
-        const { totalJob } = countJobs();
-
         document.getElementById("jobOfJobs").innerText = `${totalJob} jobs`;
 
-        // update button styles
-        let currentSelectedBtn = document.getElementById(`${selection}`);
-        currentSelectedBtn.classList.add("bg-indigo-600", "text-white");
+        updateButtonStyle(selection);
       }
       break;
     case "interview":
@@ -162,37 +163,16 @@ function toggleAvailableJob(selection) {
         let previousSelectedBtn = document.getElementById(`${selectionStatus}`);
         previousSelectedBtn.classList.remove("bg-indigo-600", "text-white");
 
-        let interviewJobs = jobPosts.filter(
-          (job) => job.status === "interview",
-        );
         const { totalJob, interviewJob } = countJobs();
-        jobContainer.innerHTML = "";
-        if (interviewJob === 0) {
-          const jobCard = document.createElement("div");
-          jobCard.classList.add(
-            "card",
-            "bg-base-100",
-            "shadow-sm",
-            "rounded-[8px]",
-            "hover:shadow-xl",
-            "transition-shadow",
-            "duration-200",
-            "ease-linear",
-          );
-          jobCard.innerHTML = `
-              <div class="card-body space-y-3">
-            <div class="flex flex-col justify-between items-center">
-              <div class="w-[100px] mb-5">
-                 <img src="jobs.png" alt="no job found" class="w-full">
-              </div>
-               <h2 class="card-title text-[#002C5C] text-xl">No job found </h2>
-               <p class="text-[#64748B]">Check back soon for new job opportunities</p>
-            </div>
-                  
-                  `;
 
-          jobContainer.appendChild(jobCard);
+        // re-render jobs after filtering interview jobs
+        clearJobContainer();
+        if (interviewJob === 0) {
+          noJobFound();
         } else {
+          let interviewJobs = jobPosts.filter(
+            (job) => job.status === "interview",
+          );
           renderJobs(interviewJobs);
         }
 
@@ -201,9 +181,7 @@ function toggleAvailableJob(selection) {
         document.getElementById("jobOfJobs").innerText =
           `${interviewJob} of ${totalJob} jobs`;
 
-        // update button styles
-        let currentSelectedBtn = document.getElementById(`${selection}`);
-        currentSelectedBtn.classList.add("bg-indigo-600", "text-white");
+        updateButtonStyle(selection);
       }
       break;
     case "rejected":
@@ -213,34 +191,15 @@ function toggleAvailableJob(selection) {
         previousSelectedBtn.classList.remove("bg-indigo-600", "text-white");
 
         const { totalJob, rejectedJob } = countJobs();
-        jobContainer.innerHTML = "";
-        let rejectedJobs = jobPosts.filter((job) => job.status === "rejected");
-        if (rejectedJob === 0) {
-          const jobCard = document.createElement("div");
-          jobCard.classList.add(
-            "card",
-            "bg-base-100",
-            "shadow-sm",
-            "rounded-[8px]",
-            "hover:shadow-xl",
-            "transition-shadow",
-            "duration-200",
-            "ease-linear",
-          );
-          jobCard.innerHTML = `
-              <div class="card-body space-y-3">
-            <div class="flex flex-col justify-between items-center">
-              <div class="w-[100px] mb-5">
-                 <img src="jobs.png" alt="no job found" class="w-full">
-              </div>
-               <h2 class="card-title text-[#002C5C] text-xl">No job found </h2>
-               <p class="text-[#64748B]">Check back soon for new job opportunities</p>
-            </div>
-                  
-                  `;
 
-          jobContainer.appendChild(jobCard);
+        // re-render jobs after filtering interview jobs
+        clearJobContainer();
+        if (rejectedJob === 0) {
+          noJobFound();
         } else {
+          let rejectedJobs = jobPosts.filter(
+            (job) => job.status === "rejected",
+          );
           renderJobs(rejectedJobs);
         }
         selectionStatus = "rejected";
@@ -248,41 +207,16 @@ function toggleAvailableJob(selection) {
         document.getElementById("jobOfJobs").innerText =
           `${rejectedJob} of ${totalJob} jobs`;
 
-        // update button styles
-        let currentSelectedBtn = document.getElementById(`${selection}`);
-        currentSelectedBtn.classList.add("bg-indigo-600", "text-white");
+        updateButtonStyle(selection);
       }
       break;
     default:
       {
-        jobContainer.innerHTML = "";
-        renderJobs(jobPosts);
         const { totalJob } = countJobs();
-        if (totalJob === 0) {
-          const jobCard = document.createElement("div");
-          jobCard.classList.add(
-            "card",
-            "bg-base-100",
-            "shadow-sm",
-            "rounded-[8px]",
-            "hover:shadow-xl",
-            "transition-shadow",
-            "duration-200",
-            "ease-linear",
-          );
-          jobCard.innerHTML = `
-              <div class="card-body space-y-3">
-            <div class="flex flex-col justify-between items-center">
-              <div class="w-[100px] mb-5">
-                 <img src="jobs.png" alt="no job found" class="w-full">
-              </div>
-               <h2 class="card-title text-[#002C5C] text-xl">No job found </h2>
-               <p class="text-[#64748B]">Check back soon for new job opportunities</p>
-            </div>
-                  
-                  `;
 
-          jobContainer.appendChild(jobCard);
+        clearJobContainer();
+        if (totalJob === 0) {
+          noJobFound();
         } else {
           renderJobs(jobPosts);
         }
@@ -306,35 +240,12 @@ function toggleJobStatus(status, event) {
   const { totalJob, interviewJob, rejectedJob } = countJobs();
 
   if (selectionStatus === "interview") {
-    let interviewJobs = jobPosts.filter((job) => job.status === "interview");
     // re-render jobs after status update
-    jobContainer.innerHTML = "";
+    clearJobContainer();
     if (interviewJob === 0) {
-      const jobCard = document.createElement("div");
-      jobCard.classList.add(
-        "card",
-        "bg-base-100",
-        "shadow-sm",
-        "rounded-[8px]",
-        "hover:shadow-xl",
-        "transition-shadow",
-        "duration-200",
-        "ease-linear",
-      );
-      jobCard.innerHTML = `
-              <div class="card-body space-y-3">
-            <div class="flex flex-col justify-between items-center">
-              <div class="w-[100px] mb-5">
-                 <img src="jobs.png" alt="no job found" class="w-full">
-              </div>
-               <h2 class="card-title text-[#002C5C] text-xl">No job found </h2>
-               <p class="text-[#64748B]">Check back soon for new job opportunities</p>
-            </div>
-                  
-                  `;
-
-      jobContainer.appendChild(jobCard);
+      noJobFound();
     } else {
+      let interviewJobs = jobPosts.filter((job) => job.status === "interview");
       renderJobs(interviewJobs);
     }
 
@@ -342,35 +253,12 @@ function toggleJobStatus(status, event) {
     document.getElementById("jobOfJobs").innerText =
       `${interviewJob} of ${totalJob} jobs`;
   } else if (selectionStatus === "rejected") {
-    let rejectedJobs = jobPosts.filter((job) => job.status === "rejected");
     // re-render jobs after status update
-    jobContainer.innerHTML = "";
+    clearJobContainer();
     if (rejectedJob === 0) {
-      const jobCard = document.createElement("div");
-      jobCard.classList.add(
-        "card",
-        "bg-base-100",
-        "shadow-sm",
-        "rounded-[8px]",
-        "hover:shadow-xl",
-        "transition-shadow",
-        "duration-200",
-        "ease-linear",
-      );
-      jobCard.innerHTML = `
-              <div class="card-body space-y-3">
-            <div class="flex flex-col justify-between items-center">
-              <div class="w-[100px] mb-5">
-                 <img src="jobs.png" alt="no job found" class="w-full">
-              </div>
-               <h2 class="card-title text-[#002C5C] text-xl">No job found </h2>
-               <p class="text-[#64748B]">Check back soon for new job opportunities</p>
-            </div>
-                  
-                  `;
-
-      jobContainer.appendChild(jobCard);
+      noJobFound();
     } else {
+      let rejectedJobs = jobPosts.filter((job) => job.status === "rejected");
       renderJobs(rejectedJobs);
     }
 
@@ -379,33 +267,10 @@ function toggleJobStatus(status, event) {
       `${rejectedJob} of ${totalJob} jobs`;
   } else {
     // re-render jobs after status update
-    jobContainer.innerHTML = "";
+    clearJobContainer();
 
     if (totalJob === 0) {
-      const jobCard = document.createElement("div");
-      jobCard.classList.add(
-        "card",
-        "bg-base-100",
-        "shadow-sm",
-        "rounded-[8px]",
-        "hover:shadow-xl",
-        "transition-shadow",
-        "duration-200",
-        "ease-linear",
-      );
-      jobCard.innerHTML = `
-              <div class="card-body space-y-3">
-            <div class="flex flex-col justify-between items-center">
-              <div class="w-[100px] mb-5">
-                 <img src="jobs.png" alt="no job found" class="w-full">
-              </div>
-               <h2 class="card-title text-[#002C5C] text-xl">No job found </h2>
-               <p class="text-[#64748B]">Check back soon for new job opportunities</p>
-            </div>
-                  
-                  `;
-
-      jobContainer.appendChild(jobCard);
+      noJobFound();
     } else {
       renderJobs(jobPosts);
     }
@@ -416,21 +281,38 @@ function handleDelete(event) {
   const jobId = event.target.id;
   jobPosts = jobPosts.filter((job) => job.id != jobId);
 
+  const { totalJob, interviewJob, rejectedJob } = countJobs();
+
   // re-render jobs after deletion
   if (selectionStatus === "interview") {
-    let interviewJobs = jobPosts.filter((job) => job.status === "interview");
-    jobContainer.innerHTML = "";
-    renderJobs(interviewJobs);
+    clearJobContainer();
+    if (interviewJob === 0) {
+      noJobFound();
+    } else {
+      let interviewJobs = jobPosts.filter((job) => job.status === "interview");
+      renderJobs(interviewJobs);
+    }
   } else if (selectionStatus === "rejected") {
-    let rejectedJobs = jobPosts.filter((job) => job.status === "rejected");
-    jobContainer.innerHTML = "";
-    renderJobs(rejectedJobs);
+    // re-render jobs after status update
+    clearJobContainer();
+    if (rejectedJob === 0) {
+      noJobFound();
+    } else {
+      let rejectedJobs = jobPosts.filter((job) => job.status === "rejected");
+      renderJobs(rejectedJobs);
+    }
   } else {
-    jobContainer.innerHTML = "";
-    renderJobs(jobPosts);
+    // re-render jobs after status update
+    clearJobContainer();
+
+    if (totalJob === 0) {
+      noJobFound();
+    } else {
+      renderJobs(jobPosts);
+    }
   }
 
-  const { totalJob, interviewJob, rejectedJob } = countJobs();
+  // const { totalJob, interviewJob, rejectedJob } = countJobs();
   if (selectionStatus === "interview") {
     document.getElementById("jobOfJobs").innerText =
       `${interviewJob} of ${totalJob} jobs`;

@@ -112,8 +112,6 @@ let jobPosts = [
   },
 ];
 
-// countJobs();
-
 const { totalJob } = countJobs();
 document.getElementById("jobOfJobs").innerText = `${totalJob} jobs`;
 
@@ -126,7 +124,7 @@ renderJobs(jobPosts);
 // selection stored in a variable to be used in toggleAvailableJob function
 let selectionStatus = "all";
 
-// update button styles
+// update button styles on selection tab
 updateButtonStyle(selectionStatus);
 
 // Toggle available job posts based on status
@@ -135,92 +133,54 @@ function toggleAvailableJob(selection) {
     case "all":
       {
         // remove previous selection button styles
-        let previousSelectedBtn = document.getElementById(`${selectionStatus}`);
-        previousSelectedBtn.classList.remove("bg-indigo-600", "text-white");
+        removePreviousBtnStyle(selectionStatus);
+
+        updateButtonStyle(selection);
+
+        renderAllJob();
+
+        selectionStatus = "all";
 
         // update job count text
         const { totalJob } = countJobs();
-
-        // re-render all jobs
-        clearJobContainer();
-        if (totalJob === 0) {
-          noJobFound();
-        } else {
-          renderJobs(jobPosts);
-        }
-
-        // reset selection to all after filtering interview or rejected jobs
-        selectionStatus = "all";
-
         document.getElementById("jobOfJobs").innerText = `${totalJob} jobs`;
-
-        updateButtonStyle(selection);
       }
       break;
     case "interview":
       {
         // remove previous selection button styles
-        let previousSelectedBtn = document.getElementById(`${selectionStatus}`);
-        previousSelectedBtn.classList.remove("bg-indigo-600", "text-white");
+        removePreviousBtnStyle(selectionStatus);
 
-        const { totalJob, interviewJob } = countJobs();
+        updateButtonStyle(selection);
 
-        // re-render jobs after filtering interview jobs
-        clearJobContainer();
-        if (interviewJob === 0) {
-          noJobFound();
-        } else {
-          let interviewJobs = jobPosts.filter(
-            (job) => job.status === "interview",
-          );
-          renderJobs(interviewJobs);
-        }
+        renderInterviewJob();
 
         selectionStatus = "interview";
 
+        const { totalJob, interviewJob } = countJobs();
         document.getElementById("jobOfJobs").innerText =
           `${interviewJob} of ${totalJob} jobs`;
-
-        updateButtonStyle(selection);
       }
       break;
     case "rejected":
       {
         // remove previous selection button styles
-        let previousSelectedBtn = document.getElementById(`${selectionStatus}`);
-        previousSelectedBtn.classList.remove("bg-indigo-600", "text-white");
-
-        const { totalJob, rejectedJob } = countJobs();
-
-        // re-render jobs after filtering interview jobs
-        clearJobContainer();
-        if (rejectedJob === 0) {
-          noJobFound();
-        } else {
-          let rejectedJobs = jobPosts.filter(
-            (job) => job.status === "rejected",
-          );
-          renderJobs(rejectedJobs);
-        }
-        selectionStatus = "rejected";
-
-        document.getElementById("jobOfJobs").innerText =
-          `${rejectedJob} of ${totalJob} jobs`;
+        removePreviousBtnStyle(selectionStatus);
 
         updateButtonStyle(selection);
+
+        renderRejectedJob();
+
+        selectionStatus = "rejected";
+
+        const { totalJob, rejectedJob } = countJobs();
+        document.getElementById("jobOfJobs").innerText =
+          `${rejectedJob} of ${totalJob} jobs`;
       }
       break;
     default:
       {
-        const { totalJob } = countJobs();
-
-        clearJobContainer();
-        if (totalJob === 0) {
-          noJobFound();
-        } else {
-          renderJobs(jobPosts);
-        }
-
+        renderAllJob();
         selectionStatus = "all";
       }
       break;
@@ -239,41 +199,19 @@ function toggleJobStatus(status, event) {
   jobPosts = updated;
   const { totalJob, interviewJob, rejectedJob } = countJobs();
 
+  // re-render jobs after status update
   if (selectionStatus === "interview") {
-    // re-render jobs after status update
-    clearJobContainer();
-    if (interviewJob === 0) {
-      noJobFound();
-    } else {
-      let interviewJobs = jobPosts.filter((job) => job.status === "interview");
-      renderJobs(interviewJobs);
-    }
-
-    // const { totalJob, interviewJob } = countJobs();
     document.getElementById("jobOfJobs").innerText =
       `${interviewJob} of ${totalJob} jobs`;
-  } else if (selectionStatus === "rejected") {
-    // re-render jobs after status update
-    clearJobContainer();
-    if (rejectedJob === 0) {
-      noJobFound();
-    } else {
-      let rejectedJobs = jobPosts.filter((job) => job.status === "rejected");
-      renderJobs(rejectedJobs);
-    }
 
-    // const { totalJob, rejectedJob } = countJobs();
+    renderInterviewJob();
+  } else if (selectionStatus === "rejected") {
     document.getElementById("jobOfJobs").innerText =
       `${rejectedJob} of ${totalJob} jobs`;
-  } else {
-    // re-render jobs after status update
-    clearJobContainer();
 
-    if (totalJob === 0) {
-      noJobFound();
-    } else {
-      renderJobs(jobPosts);
-    }
+    renderRejectedJob();
+  } else {
+    renderAllJob();
   }
 }
 
@@ -285,34 +223,13 @@ function handleDelete(event) {
 
   // re-render jobs after deletion
   if (selectionStatus === "interview") {
-    clearJobContainer();
-    if (interviewJob === 0) {
-      noJobFound();
-    } else {
-      let interviewJobs = jobPosts.filter((job) => job.status === "interview");
-      renderJobs(interviewJobs);
-    }
+    renderInterviewJob();
   } else if (selectionStatus === "rejected") {
-    // re-render jobs after status update
-    clearJobContainer();
-    if (rejectedJob === 0) {
-      noJobFound();
-    } else {
-      let rejectedJobs = jobPosts.filter((job) => job.status === "rejected");
-      renderJobs(rejectedJobs);
-    }
+    renderRejectedJob();
   } else {
-    // re-render jobs after status update
-    clearJobContainer();
-
-    if (totalJob === 0) {
-      noJobFound();
-    } else {
-      renderJobs(jobPosts);
-    }
+    renderAllJob();
   }
 
-  // const { totalJob, interviewJob, rejectedJob } = countJobs();
   if (selectionStatus === "interview") {
     document.getElementById("jobOfJobs").innerText =
       `${interviewJob} of ${totalJob} jobs`;

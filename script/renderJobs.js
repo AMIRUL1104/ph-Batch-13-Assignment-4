@@ -1,5 +1,4 @@
 // Loop through job posts and create job cards
-
 function renderJobs(jobPosts) {
   for (const job of jobPosts) {
     const jobCard = document.createElement("div");
